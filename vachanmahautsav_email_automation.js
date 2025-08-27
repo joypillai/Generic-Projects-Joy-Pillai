@@ -18,16 +18,24 @@ function sendConfirmationEmails() {
     var phone = data[i][2];    // Column D = WhatsApp
     var numPeople = data[i][3];   // Column E = No. of People
     var vmidseq = data[i][7]; // Column I 
+    var personstr = "";
     var confirmStatus = data[i][8]; // Column I (8th col in this range)
     var sentStatus = sheet.getRange(startRow + i, 11).getValue(); // Column J (10th col in sheet)
     var qrData = `ID: ${vmidseq}\nName: ${name}\nEmail: ${emailAddress}\nPhone: ${phone}\nNo. of People: ${numPeople}`;
     var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(qrData) + "&size=200x200";
 
+    if (numPeople === 1){
+      personstr = "person"
+    }
+    else{
+      personstr = "people"
+    }
     if (confirmStatus === "CONFIRM" && sentStatus !== "SENT" && emailAddress) {
       var message = `
         <p>Hello ${name},</p>
         <p>Praise the Lord!</p>
         <p>We’re excited to confirm your registration for <strong>VACHAN MAHAUTSAV 2025</strong></p>
+        <p>Your VMID is  <strong>${vmidseq}</strong> and you have registered for ${numPeople} ${personstr} </p>
         <p>Attached to this email, you’ll find your <strong>Entry Pass</strong> for the event.</p>
         <p>Additionally, we’ve sent your personal <strong>QR code</strong> below. You can either:</p>
         <ul>
@@ -37,7 +45,7 @@ function sendConfirmationEmails() {
 
         <p><img src="${qrUrl}" width="200"></p>
 
-        <p>We are delighted to have you join us for Vahan Mahautsav. May God Bless you and your family through this event.</p>
+        <p>We are delighted to have you join us for Vachan Mahautsav. May God Bless you and your family through this event.</p>
 
         <p>Best regards,<br>
         NLF CBD Zone Media Team</p>
