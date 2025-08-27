@@ -18,6 +18,19 @@ function generateQRCodesOnSubmit(e) {
 
   // Put QR in Column H
   sheet.getRange(lastRow, 8).setFormula('=IMAGE("' + url + '")');
-  sheet.getRange(lastRow, 9).setValue("CONFIRM HERE ->");
+  
+  // Generate sequential ID for Column I
+  var idColumn = 9;
+  var prevId = sheet.getRange(lastRow - 1, idColumn).getValue();
+  var newId;
+
+  if (prevId && /^VMID\d+$/.test(prevId)) {
+    var num = parseInt(prevId.replace("VMID", ""), 10) + 1;
+    newId = "VMID" + num;
+  } else {
+    newId = "VMID1"; // First ID
+  }
+
+  sheet.getRange(lastRow, idColumn).setValue(newId);
 }
 
