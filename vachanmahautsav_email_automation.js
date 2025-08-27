@@ -17,11 +17,10 @@ function sendConfirmationEmails() {
     var emailAddress = data[i][1]; // Column C
     var phone = data[i][2];    // Column D = WhatsApp
     var numPeople = data[i][3];   // Column E = No. of People
-    var qrFormula = data[i][7]; // Column H
-    var qrUrl = qrFormula.startsWith("=") ? qrFormula.slice(1) : qrFormula; 
+    var vmidseq = data[i][7]; // Column I 
     var confirmStatus = data[i][8]; // Column I (8th col in this range)
     var sentStatus = sheet.getRange(startRow + i, 11).getValue(); // Column J (10th col in sheet)
-    var qrData = `Name: ${name}\nEmail: ${emailAddress}\nPhone: ${phone}\nNo. of People: ${numPeople}`;
+    var qrData = `ID: ${vmidseq}\nName: ${name}\nEmail: ${emailAddress}\nPhone: ${phone}\nNo. of People: ${numPeople}`;
     var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(qrData) + "&size=200x200";
 
     if (confirmStatus === "CONFIRM" && sentStatus !== "SENT" && emailAddress) {
